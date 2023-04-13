@@ -1,0 +1,98 @@
+寫一個會標記「已讀」訊息的echo server，
+並寫一支client程式跟echo server對話。
+ 使用TCP溝通
+ Server和client皆需把對方送來的訊息印出
+
+server用以下code去做修改:
+Server Initialization
+01/* tcpserver.c */
+02
+03#include <sys/types.h>
+04#include <sys/socket.h>
+05#include <netinet/in.h> /* INADDR_ANY */
+06#include <ctype.h> /* toupper() */
+07
+08#define PORT 10000 /* server port value */
+09
+10int main()
+11{
+12 int accept_sock;
+13 int client_sock;
+14 struct sockaddr_in serv_addr;
+15 char ch;
+16
+17 /* create INTERNET,TCP socket */
+18 accept_sock = socket(PF_INET, SOCK_STREAM, 0);
+19
+20 serv_addr.sin_family = AF_INET;
+21 serv_addr.sin_addr.s_addr = INADDR_ANY;
+22 serv_addr.sin_port = htons(PORT); /* specific port */
+23 /* bind protocol to socket */
+24 if(bind(accept_sock, (struct sockaddr *) &serv_addr, sizeof(serv_addr))
+25< 0)
+26 {
+27 perror("bind");
+28 exit(1);
+29 }
+30 listen(accept_sock,5);
+Server Connection
+31
+32 for(;;)
+33 {
+34 /* accept one connection, will block here. */
+35 client_sock = accept(accept_sock, 0, 0);
+Server Transmission
+36 for(;;)
+37 {
+38 if(recv(client_sock, &ch, sizeof ch, 0) <= 0)
+39 break;
+40 ch = toupper(ch);
+41 send(client_sock, &ch, sizeof ch, 0);
+42 if(ch == '\0') // end of string
+43 break;
+44 }
+45 close(client_sock); // close a client socket
+46 }
+47// close(accept_sock); // unreachable
+
+client用以下code去做修改:
+Client Initialization
+01/* tcpclient.c */
+02
+03#include <stdio.h>
+04#include <sys/types.h> /* basic system data types */
+05#include <sys/socket.h> /* basic socket definitions */
+06#include <netinet/in.h> /* sockaddr_in{} and other Internet defns */
+07
+08#define PORT 10000 /* server port value */
+09
+10int main()
+11{
+12 int connect_sock;
+13 char input[100], output[100], *s = output;
+14 struct sockaddr_in serv_addr;
+15 int n;
+16
+17 connect_sock = socket(PF_INET, SOCK_STREAM, 0);
+18
+19 serv_addr.sin_family = AF_INET;
+20 serv_addr.sin_port = htons(PORT);
+21 serv_addr.sin_addr.s_addr = inet_addr(“127.0.0.1");
+Client Connection
+22
+23 if (connect(connect_sock, (struct sockaddr *) &serv_addr, sizeof serv_addr) <0)
+24 {
+25 perror("connect");
+26 exit(1);
+27 }
+28
+Client Transmission
+29 printf("Input:");
+30 scanf("%s", input);
+31 send(connect_sock, input, strlen(input) + 1 ,0); // including ending '\0'
+32 while((n = recv(connect_sock, s, sizeof *s, 0)) > 0) {
+33 s += n; // move pointer for recv()
+34 }
+35 printf("Output:%s\n", output);
+36 close(connect_sock);
+37}
