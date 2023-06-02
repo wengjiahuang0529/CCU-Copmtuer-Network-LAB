@@ -1,0 +1,12 @@
+sh ovs-ofctl add-group s1 group_id=1,type=all,bucket=output:1,bucket=output:2,bucket=output:4
+sh ovs-ofctl add-group s1 group_id=2,type=all,bucket=output:1,bucket=output:2
+sh ovs-ofctl add-group s2 group_id=1,type=all,bucket=output:3
+sh ovs-ofctl add-group s2 group_id=2,type=all,bucket=output:4
+sh ovs-ofctl add-group s3 group_id=1,type=all,bucket=output:3
+sh ovs-ofctl add-group s3 group_id=2,type=all,bucket=output:4,bucket=output:5
+sh ovs-ofctl add-flow s1 dl_type=0x0800,nw_dst=224.0.0.1,actions=group:1
+sh ovs-ofctl add-flow s1 dl_type=0x0800,nw_dst=224.0.0.2,actions=group:2
+sh ovs-ofctl add-flow s2 dl_type=0x0800,nw_dst=224.0.0.1,actions=group:1
+sh ovs-ofctl add-flow s2 dl_type=0x0800,nw_dst=224.0.0.2,actions=group:2
+sh ovs-ofctl add-flow s3 dl_type=0x0800,nw_dst=224.0.0.1,actions=group:1
+sh ovs-ofctl add-flow s3 dl_type=0x0800,nw_dst=224.0.0.2,actions=group:2

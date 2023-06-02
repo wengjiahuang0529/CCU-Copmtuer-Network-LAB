@@ -1,0 +1,1 @@
+https://tw.stock.yahoo.com/_td-stock/api/resource/StockServices.stockList;autoRefresh=1659720073465;fields=avgPrice,orderbook;symbols=BTC-USD?bkt=&device=desktop&ecma=modern&feature=ecmaModern,useNewQuoteTabColor&intl=tw&lang=zh-Hant-TW&partner=none&prid=3ec7fd9heqk4r&region=TW&site=finance&tz=Asia/Taipei&ver=1.2.1432&returnMeta=true
