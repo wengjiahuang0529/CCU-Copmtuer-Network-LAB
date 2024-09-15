@@ -12,13 +12,13 @@ Network Programming
 Network Vulnerability Assessment
 
 
-## 軟體定義網路(04/21、04/28、05/05)	
+## Software-Defined Networking(04/21、04/28、05/05)	
 OpenFlow Protocol and Basic Operations Mininet & SDN Controller
 
 
-## 智慧聯網霧端運算(05/12、05/19)	
+## Edge Computing for Smart IoT(05/12、05/19)	
 Applying Federated Learning in Edge Networks
 
 
-## 聯網式感測網路(05/26、06/02)	
+## IoT Sensor Networks(05/26、06/02)	
 Wireless Sensor Network Experiments
